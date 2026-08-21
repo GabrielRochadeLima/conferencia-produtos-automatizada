@@ -3,13 +3,19 @@
 def gerar_numero_conferencia():
     try:
         with open("numero_conferencia.txt", "r") as arquivo:
-            numero = int(arquivo.read())
+            linhas = arquivo.readlines()
+        if linhas:
+            numero=int(linhas[-1].strip()) + 1
+        else:
+            numero = 1
     except FileNotFoundError:
         numero = 1
 
-    with open("numero_conferencia.txt", "w") as arquivo:
-        arquivo.write(str(numero + 1))
+    with open("numero_conferencia.txt", "a") as arquivo:
+        arquivo.write(f"{numero}\n")
+
     return numero
+
 def salvar_conferencia(produtos, numero_conferencia):
     with open(f"conferencias.txt", "a") as arquivo:
         arquivo.write("\n")
@@ -18,13 +24,32 @@ def salvar_conferencia(produtos, numero_conferencia):
         arquivo.write("=" * 40 + "\n")
         for ean, quantidade in produtos.items():
             arquivo.write(f"{ean},{quantidade}\n")
-        
+
+def listar_conferencias():
+    try:
+        with open("conferencias.txt", "r") as arquivo:
+            linhas = arquivo.readlines()
+        conferencias = []
+
+        for linha in linhas:
+            if linha.startswith("CONFERÊNCIA:"):
+                numero_conferencia = int(linha.split(":")[1].strip())
+                conferencias.append(numero_conferencia)
+        return conferencias
+    
+    except FileNotFoundError:
+        print("Nenhuma conferência encontrada.")
+
+    return conferencias
 
 print("===Bem vindo ao sistema de conferencia===")
 print("Escolha a opção desejada:")
 print("1 - iniciar conferencia")
+print("2 - Consultar conferencia")
 op=int(input("Digite a opção: "))
+
 if op==1:
+    numero_conferencias = gerar_numero_conferencia()
     print("iniciando conferencia...")
     ean_list=[]
     ean = input("Bipe o ean do produto: ")
@@ -34,9 +59,9 @@ if op==1:
     resp = input("Resposta: ")
     if resp == "s":
 
-        numero_conferencias = gerar_numero_conferencia()
+        
 
-        produtos={}
+        produtos={}   
 
         while True:
         
@@ -58,8 +83,19 @@ if op==1:
         salvar_conferencia(produtos, numero_conferencias)
         print(f"Conferência {numero_conferencias:04d} salva com sucesso!")
 
+elif op == 2:
 
-    
+    print("\n=== CONSULTAR CONFERÊNCIA ===")
 
-            
+    conferencias = listar_conferencias()
 
+    if not conferencias:
+        print("Nenhuma conferência encontrada.")
+
+    else:
+        print("\nConferências disponíveis:")
+
+        for conferencia in conferencias:
+            print(f"Conferência: {conferencia:04d}")
+
+        numero_consulta = input("\nDigite o número da conferência que deseja consultar: ")
