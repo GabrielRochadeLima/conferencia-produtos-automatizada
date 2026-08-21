@@ -10,7 +10,16 @@ def gerar_numero_conferencia():
     with open("numero_conferencia.txt", "w") as arquivo:
         arquivo.write(str(numero + 1))
     return numero
-    
+def salvar_conferencia(produtos, numero_conferencia):
+    with open(f"conferencias.txt", "a") as arquivo:
+        arquivo.write("\n")
+        arquivo.write("=" * 40 + "\n")
+        arquivo.write(f"CONFERÊNCIA: {numero_conferencia:04d}\n")
+        arquivo.write("=" * 40 + "\n")
+        for ean, quantidade in produtos.items():
+            arquivo.write(f"{ean},{quantidade}\n")
+        
+
 print("===Bem vindo ao sistema de conferencia===")
 print("Escolha a opção desejada:")
 print("1 - iniciar conferencia")
@@ -46,6 +55,8 @@ if op==1:
         print(f"\n=== CONFERÊNCIA {numero_conferencias:04d} ===")
         for ean, quantidade in produtos.items():
             print(f"EAN: {ean}, Quantidade: {quantidade}")
+        salvar_conferencia(produtos, numero_conferencias)
+        print(f"Conferência {numero_conferencias:04d} salva com sucesso!")
 
 
     
