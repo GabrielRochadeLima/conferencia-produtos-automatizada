@@ -128,7 +128,7 @@ sistema-conferencia/
 
 O projeto ainda está em desenvolvimento. Entre as próximas funcionalidades planejadas estão:
 
-* [ ] Salvar cada conferência realizada.
+* [x] Salvar cada conferência realizada.
 * [ ] Permitir consultar conferências anteriores pelo número.
 * [ ] Associar **EAN → SKU**.
 * [ ] Exibir SKU, EAN e quantidade na conferência.
