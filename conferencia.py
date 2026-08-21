@@ -1,6 +1,16 @@
 # projeto para auxiliar na bipagem dos produtos e criar uma lista com os sku, ean
 # e quantidade somadas e essa lista ser colocada no app de movimentacao da valenro
+def gerar_numero_conferencia():
+    try:
+        with open("numero_conferencia.txt", "r") as arquivo:
+            numero = int(arquivo.read())
+    except FileNotFoundError:
+        numero = 1
 
+    with open("numero_conferencia.txt", "w") as arquivo:
+        arquivo.write(str(numero + 1))
+    return numero
+    
 print("===Bem vindo ao sistema de conferencia===")
 print("Escolha a opção desejada:")
 print("1 - iniciar conferencia")
@@ -14,6 +24,8 @@ if op==1:
     print("Deseja adicionar produtos em massa? (s/n)")
     resp = input("Resposta: ")
     if resp == "s":
+
+        numero_conferencias = gerar_numero_conferencia()
 
         produtos={}
 
@@ -29,11 +41,14 @@ if op==1:
                 produtos[ean] += 1 #incrementa a quantidade do produto existente
             else:
                 produtos[ean] = 1 #adiciona o produto com quantidade 1
-            print("EAN adicionado com sucesso!")
+            print("Produto adicionado com sucesso!")
 
-        print("Resultado da conferência:")
+        print(f"\n=== CONFERÊNCIA {numero_conferencias:04d} ===")
         for ean, quantidade in produtos.items():
             print(f"EAN: {ean}, Quantidade: {quantidade}")
+
+
+    
 
             
 
