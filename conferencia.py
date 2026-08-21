@@ -8,23 +8,32 @@ op=int(input("Digite a opção: "))
 if op==1:
     print("iniciando conferencia...")
     ean_list=[]
-    bipe = input("Bipe o ean do produto: ")
-    ean_list.append(bipe)
+    ean = input("Bipe o ean do produto: ")
+    ean_list.append(ean)
     print("EAN adicionado com sucesso!")
     print("Deseja adicionar produtos em massa? (s/n)")
     resp = input("Resposta: ")
     if resp == "s":
-           
+
+        produtos={}
+
         while True:
         
-            bipe = input("Bipe o ean do produto ou digite \"fim\" para finalizar: ")
-            if bipe == "fim":
+            ean = input("Bipe o ean do produto ou digite \"fim\" para finalizar: ")
+
+            if ean == "fim": #verifica se o usuário digitou "fim" para encerrar a entrada de produtos
                 print("Lista de produtos finalizada com sucesso!")
                 break
-            ean_list.append(bipe)
 
+            if ean in produtos:
+                produtos[ean] += 1 #incrementa a quantidade do produto existente
+            else:
+                produtos[ean] = 1 #adiciona o produto com quantidade 1
             print("EAN adicionado com sucesso!")
 
-        print(ean_list)
+        print("Resultado da conferência:")
+        for ean, quantidade in produtos.items():
+            print(f"EAN: {ean}, Quantidade: {quantidade}")
+
             
 
